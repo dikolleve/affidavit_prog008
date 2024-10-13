@@ -35,7 +35,7 @@ const editData = (client_id) => {
   edit = true;
   selectedToEdit = client_id;
   const data_selected = search_selected(client_id);
-  if (confirm("Are you sure to edit this data? 😦")) {
+  if (confirm("Are you sure do you want to edit this data? 😦")) {
     if (data_selected) {
       console.log(data_selected);
       account_lost.value = data_selected.account_lost;
@@ -155,7 +155,7 @@ const handleSubmit = (e) => {
   console.log("FCB BANK ADDRESS: " + bank_address.value);
 
   const affidavit_arr = {
-    id: getAutoId(),
+    id: edit === true ? selectedToEdit : getAutoId(),
     account_lost: account_lost.value,
     account_hold: account_hold.value,
     account_name: account_name.value,
