@@ -1,0 +1,148 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+body {
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+select, input{
+	font-family: inherit;
+}
+h1{
+	text-align: center;
+	background-color: gold;
+	text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5); 
+	box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3); /* Shadow properties */
+	padding: 3px 0;
+	border-radius: 10px;
+}
+.container1 {
+	min-height: 100vh;
+	background-image: linear-gradient(to right, #134e5e, #71b280);
+	padding: 15px;
+}
+.container2 {
+	min-height: 100vh;
+	background: #134e5e;
+	background-image: linear-gradient(to right, #134e5e, #71b280);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.form-label {
+	display: block;
+}
+.form-control {
+	width: 100%;
+	height: 32px;
+	padding: 3px;
+}
+.account {
+	position: relative;
+	width: 350px;
+	background-color: white;
+	padding: 1rem;
+}
+.mb{
+	margin-bottom: 5px;;
+}
+.btn {
+	background: none;
+	border: none;
+	cursor: pointer;
+	border-radius: 3px;
+	padding: 8px 10px;
+}
+.btn-primary {
+	background-color: #0275d8;
+	color: black;	
+}
+.btn-primary:hover {
+	background-color: steelblue;
+}
+.btn-success {
+	background-color: #5cb85c;
+	padding: 10px 0;
+	font-weight: bold;
+}
+.btn-warning {
+	background-color: #f0ad4e;
+	
+}
+.btn-warning:hover {
+	background-color: #ffc000;
+}
+.btn-danger {
+	background-color: #d9534f;
+	color: black;
+}
+.btn-danger:hover {
+	background-color: #d22b2b;
+}
+.back {
+	position: absolute;
+	top: 50px;
+	left: -200px;
+	color: white;
+	padding: 7px 20px;
+}
+table {
+	margin-top: 10px;
+	width: 100%;
+	border-collapse: collapse;
+	box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3); /* Shadow properties */
+}
+table td, th {
+	border: 1px solid #f2f2f2;
+	padding: 8px;
+}
+table tr:nth-child(odd) {
+	background-color: white;
+}
+table tr:nth-child(even) {
+	background-color: #f2f2f2;
+}
+table tr:hover {
+	background-color: #ddd;
+}
+table th {
+	padding: 12px 10px;
+	text-align: left;
+	background: black;
+	color: white;
+	border: 0px;
+}
+
+@media(max-width: 768px) {
+	table thead {
+		display: none;
+	}
+	table tbody, tr, td {
+		display: block;
+	}
+	table tr {
+		margin-bottom: 10px;
+	}
+	table tr td {
+		text-align: right;
+		padding-left: 50%;
+		position: relative;
+		border: 1px solid #f2f2f2;
+	}
+	table tr:nth-child(even) {
+		background-color: white;
+	}
+	table tr:hover {
+		background-color: #ddd;
+	}
+	table td:before {
+		content: attr(data-label);
+		position: absolute;
+		left: 0;
+		width: 50%;
+		padding-left: 15px;
+		text-align: left;
+		font-weight: 600;
+	}
+}

@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>AFFIDAVIT OF LOSS FORM</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" type="text/css" href="./css/affidavit_syle.css" />
+  </head>
+  <body>
+    <div class="container1" id="affidavit_table">
+      <h1>AFFIDAVIT OF LOSS LISTS</h1>
+      <button
+        type="button"
+        class="btn btn-primary"
+        style="padding: 8px 25px; margin-top: 1rem"
+        id="add_id"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="22"
+          height="22"
+          fill="currentColor"
+          style="fill: white"
+          class="bi bi-plus-circle"
+          viewBox="0 0 16 16"
+        >
+          <path
+            d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"
+          />
+          <path
+            d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"
+          />
+        </svg>
+      </button>
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>ACCOUNT LOST</th>
+            <th>ACCOUNT NAME</th>
+            <th>ACCOUNT NUMBER</th>
+            <th>CONTROL NUMBER</th>
+            <th>MONTH AND YEAR LOST</th>
+            <th>OPERATION</th>
+          </tr>
+        </thead>
+        <tbody id="table_lists"></tbody>
+      </table>
+    </div>
+    <!-- REQUIRED: need mag butang sin name="" [ example name="account_name" ] sa "form" kun mag butang ka sin "required" sa "form"
+		example:
+		<input name="account_name" id="account_name" type="text" class="form-control" required /> 
+		
+		kay kun dere ka magbutang amu ini it error "An invalid form control with name='' is not focusable.
+		taz add ka code set required and remove required
+		"
+		-->
+    <div class="container2" id="affidavit_con">
+      <form id="affidavit_form_id">
+        <div class="account">
+          <button type="button" class="btn btn-primary back" id="back">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="30"
+              height="30"
+              fill="currentColor"
+              class="bi bi-arrow-left-circle-fill"
+              viewBox="0 0 16 16"
+            >
+              <path
+                d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0m3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z"
+              />
+            </svg>
+          </button>
+          <div class="mb">
+            <label class="form-label mb">ACCOUNT LOST:</label>
+            <select
+              name="account_lost"
+              id="account_lost"
+              class="form-control"
+              required
+            >
+              <option value="">---SELECT---</option>
+              <option value="passbook">PASSBOOK</option>
+              <option value="pitakard">PITAKARD</option>
+              <option value="ctd">CTD</option>
+            </select>
+          </div>
+          <div class="mb">
+            <label class="form-label mb">ACCOUNT HOLD:</label>
+            <select
+              name="account_hold"
+              id="account_hold"
+              class="form-control"
+              required
+            >
+              <option value="">---SELECT---</option>
+              <option value="single">SINGLE</option>
+              <option value="joint">JOINT / ASSOCIATION / CORPORATION</option>
+            </select>
+          </div>
+          <div class="mb">
+            <label class="form-label mb">ACCOUNT NAME:</label>
+            <input
+              name="account_name"
+              id="account_name"
+              type="text"
+              class="form-control"
+              required
+            />
+          </div>
+          <div class="mb">
+            <label class="form-label mb">CIVIL STATUS:</label>
+            <select
+              name="account_name"
+              id="civil_status"
+              class="form-control"
+              required
+            >
+              <option value="">---SELECT---</option>
+              <option value="married">MARRIED</option>
+              <option value="single">SINGLE</option>
+              <option value="widower">WIDOWER</option>
+              <option value="widow">WIDOW</option>
+              <option value="separed-in-fact">SEPARATED-IN-FACT</option>
+            </select>
+          </div>
+          <div class="mb">
+            <label class="form-label mb">COMPLETE ADDRESS:</label>
+            <input
+              name="address"
+              id="address"
+              type="text"
+              class="form-control"
+              required
+            />
+          </div>
+          <div class="mb">
+            <label class="form-label mb">ACCOUNT NUMBER:</label>
+            <input
+              name="acct_num"
+              id="acct_num"
+              type="text"
+              class="form-control"
+              required
+            />
+          </div>
+          <div class="mb">
+            <label class="form-label mb">CONTROL NUMBER:</label>
+            <input
+              name="control_num"
+              id="control_num"
+              type="text"
+              class="form-control"
+              required
+            />
+          </div>
+          <div class="mb">
+            <label class="form-label mb">ACCOUNT OPENED:</label>
+            <input
+              name="acct_open"
+              id="acct_open"
+              type="date"
+              class="form-control"
+              required
+            />
+          </div>
+          <div class="mb">
+            <label class="form-label mb">MONTH AND YEAR LOST:</label>
+            <div style="display: flex">
+              <div style="flex: 1">
+                <select
+                  name="month_lost"
+                  id="month_lost"
+                  class="form-control"
+                  required
+                >
+                  <option value="">---SELECT---</option>
+                  <option value="january">JANUARY</option>
+                  <option value="february">FEBRUARY</option>
+                  <option value="march">MARCH</option>
+                  <option value="april">APRIL</option>
+                  <option value="may">MAY</option>
+                  <option value="june">JUNE</option>
+                  <option value="july">JULY</option>
+                  <option value="august">AUGUST</option>
+                  <option value="september">SEPTEMBER</option>
+                  <option value="october">OCTOBER</option>
+                  <option value="november">NOVEMBER</option>
+                  <option value="december">DECEMBER</option>
+                </select>
+              </div>
+              <div style="flex: 1">
+                <select
+                  name="year_lost"
+                  id="year_lost"
+                  class="form-control"
+                  required
+                >
+                  <option value="">---SELECT---</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="mb">
+            <label class="form-label mb">DATE OF AFFIDAVIT CREATED:</label>
+            <input
+              name="date_created"
+              type="date"
+              id="date_created"
+              class="form-control"
+              required
+            />
+          </div>
+          <div class="mb">
+            <label class="form-label mb">FCB BANK ADDRESS:</label>
+            <input
+              name="bank_address"
+              type="text"
+              id="bank_address"
+              value="Real St. Loyonsawang,Abuyog, Leyte"
+              class="form-control"
+              required
+            />
+          </div>
+          <div>
+            <button
+              id="btn"
+              type="submit"
+              class="btn btn-success"
+              style="margin-top: 3px; width: 100%"
+              form="affidavit_form_id"
+            >
+              ADD
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <script src="./script/affidavit_code.js"></script>
+  </body>
+</html>
