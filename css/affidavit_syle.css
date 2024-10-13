@@ -114,7 +114,22 @@ table th {
 	border: 0px;
 }
 
+@media(max-width: 1252px) {
+	.arrange_btn{
+		display: flex;
+		flex-direction: column;
+	}
+}
+
 @media(max-width: 768px) {
+	.arrange_btn{
+		display: flex;
+		flex-direction: row;
+		justify-content: flex-end;
+	}
+	.arrange_btn button:nth-child(2) {
+		margin: 0 5px;
+	}
 	table thead {
 		display: none;
 	}
@@ -146,3 +161,4 @@ table th {
 		font-weight: 600;
 	}
 }
+
