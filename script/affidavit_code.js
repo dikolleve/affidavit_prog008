@@ -2,6 +2,7 @@ const affidavit_table = document.querySelector("#affidavit_table");
 const add = document.querySelector("#add_id");
 const affidavit_con = document.querySelector("#affidavit_con");
 const back = document.querySelector("#back");
+const inputs = document.querySelectorAll("input[type='text']");
 
 //begining: this variable is for affidavit form
 const affidavit_form_id = document.querySelector("#affidavit_form_id");
@@ -25,6 +26,12 @@ let selectedToEdit = "";
 const affidavit_data = localStorage.getItem("affidavit_storage")
   ? JSON.parse(localStorage.getItem("affidavit_storage"))
   : [];
+
+inputs.forEach((input) => {
+  input.addEventListener("input", () => {
+    input.value = input.value.toUpperCase();
+  });
+});
 
 const search_selected = (client_id) => {
   return affidavit_data.find((data) => data.id === client_id);
@@ -88,19 +95,26 @@ const display_lists = () => {
   const table_lists = document.querySelector("#table_lists");
 
   table_lists.innerHTML = null;
-  table_lists.innerHTML = affidavit_data
-    .map((list, index) => {
-      let {
-        id,
-        account_lost,
-        account_name,
-        acct_num,
-        control_num,
-        month_lost,
-        year_lost,
-      } = list;
+  if (affidavit_data == "") {
+    return (table_lists.innerHTML = `
+      <tr>
+        <td colspan="7" align="center"><b>NO DATA</b></td>
+      </tr>
+    `);
+  } else {
+    table_lists.innerHTML = affidavit_data
+      .map((list, index) => {
+        let {
+          id,
+          account_lost,
+          account_name,
+          acct_num,
+          control_num,
+          month_lost,
+          year_lost,
+        } = list;
 
-      return `
+        return `
 			<tr>
 				<td data-label="#">${(index += 1)}</td>
 				<td data-label="ACCOUNT LOST">${account_lost}</td>
@@ -130,8 +144,9 @@ const display_lists = () => {
 				</td>
 			</tr>
 		`;
-    })
-    .join("");
+      })
+      .join("");
+  }
 };
 
 const getAutoId = () => {
@@ -224,6 +239,11 @@ const hideContainer = () => {
   affidavit_con.style.display = "none";
   display_lists();
   generateYear();
+};
+
+const handleTyping = (e) => {
+  e.preventDefault();
+  e.target.value.toUpperCase();
 };
 
 const init = () => {
