@@ -5,5 +5,50 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>PRINT AFFIDAVIT OF LOSS</title>
   </head>
-  <body></body>
+  <body>
+    <div id="affidavit_loss"></div>
+
+    <script type="text/javascript">
+      const affidavit_loss = document.querySelector("#affidavit_loss");
+      function getQueryParam(param) {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(param);
+      }
+      const encodedData = getQueryParam("data");
+      if (encodedData) {
+        const jsonData = JSON.parse(decodeURIComponent(encodedData));
+        console.log(jsonData.id);
+        console.log(jsonData.account_lost);
+        console.log(jsonData.account_hold);
+        console.log(jsonData.account_name);
+        console.log(jsonData.civil_status);
+        console.log(jsonData.address);
+        console.log(jsonData.acct_num);
+        console.log(jsonData.control_num);
+        console.log(jsonData.acct_open);
+        console.log(jsonData.month_lost);
+        console.log(jsonData.year_lost);
+        console.log(jsonData.date_created);
+        console.log(jsonData.bank_address);
+
+        const id = jsonData.id;
+        const account_lost = jsonData.account_lost;
+        const account_hold = jsonData.account_hold;
+        const account_name = jsonData.account_name;
+        const civil_status = jsonData.civil_status;
+        const address = jsonData.address;
+        const acct_num = jsonData.acct_num;
+        const control_num = jsonData.control_num;
+        const acct_open = jsonData.acct_open;
+        const month_lost = jsonData.month_lost;
+        const year_lost = jsonData.year_lost;
+        const date_created = jsonData.date_created;
+        const bank_address = jsonData.bank_address;
+
+        affidavit_loss.innerHTML = `<p>${
+          account_hold === "single" ? "I" : "We"
+        }</p>`;
+      }
+    </script>
+  </body>
 </html>
