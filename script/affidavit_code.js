@@ -250,6 +250,9 @@ const generateYear = () => {
 };
 
 const handleBack = () => {
+  edit = false;
+  clearFields();
+  document.querySelector("#btn").innerText = "ADD";
   removeRequired();
   affidavit_table.style.display = "block";
   affidavit_con.style.display = "none";
