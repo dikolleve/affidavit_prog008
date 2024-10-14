@@ -33,6 +33,33 @@ inputs.forEach((input) => {
   });
 });
 
+const viewData = (client_id) => {
+  console.log(client_id);
+  const data_selected = search_selected(client_id);
+  if (data_selected) {
+    console.log(data_selected);
+
+    const affidavit_data = {
+      id: data_selected.id,
+      account_lost: data_selected.account_lost,
+      account_hold: data_selected.account_hold,
+      account_name: data_selected.account_name,
+      civil_status: data_selected.civil_status,
+      address: data_selected.address,
+      acct_num: data_selected.acct_num,
+      control_num: data_selected.control_num,
+      acct_open: data_selected.acct_open,
+      month_lost: data_selected.month_lost,
+      year_lost: data_selected.year_lost,
+      date_created: data_selected.date_created,
+      bank_address: data_selected.bank_address,
+    };
+
+    const encodedData = encodeURIComponent(JSON.stringify(affidavit_data));
+    window.location.href = `./links/print_affidavit.html?data=${encodedData}`;
+  }
+};
+
 const search_selected = (client_id) => {
   return affidavit_data.find((data) => data.id === client_id);
 };
@@ -129,7 +156,7 @@ const display_lists = () => {
 						</svg>
 					</button>
 					
-					<button class="btn btn-primary">
+					<button class="btn btn-primary" onclick="viewData('${id}')">
 						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
 						  <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0"/>
 						  <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8m8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7"/>
