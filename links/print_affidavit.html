@@ -4,17 +4,78 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>PRINT AFFIDAVIT OF LOSS</title>
+    <style>
+      /* Screen-specific styles */
+      @media screen {
+        body {
+          font-family: Arial, sans-serif;
+          width: 100%;
+          margin: 0;
+        }
+        .container {
+          width: 100%;
+          margin: 20px;
+          background-color: gold;
+        }
+      }
+
+      /* Print-specific styles */
+      @media print {
+        @page {
+          size: letter; /* Defines the letter size for print (8.5 x 11 inches) */
+          margin: 1in; /* Adjust page margins for printing */
+        }
+
+        body {
+          font-family: Arial, sans-serif;
+          width: 100%;
+          margin: 0;
+          padding: 0;
+        }
+
+        .container {
+          width: 100%;
+          padding: 0.5in; /* Adjust the container to fit within print margins */
+        }
+      }
+    </style>
   </head>
   <body>
-    <div id="affidavit_loss"></div>
+    <div class="container" id="affidavit_loss"></div>
 
     <script type="text/javascript">
+      const branch = "ABUYOG";
       const affidavit_loss = document.querySelector("#affidavit_loss");
+
+      const getDateOpened = (text_date) => {
+        //console.log(text_date);
+        let date_split = text_date.split("-");
+
+        let year = date_split[0];
+        let month = parseInt(date_split[1]) - 1;
+        let day = date_split[2];
+
+        // Create the new date object
+        let newDate = new Date(year, month, day);
+
+        // Manually format the date
+        let formattedMonth = newDate.toLocaleString("en-US", { month: "long" });
+        let formattedDay = String(newDate.getDate()).padStart(2, "0");
+        let formattedYear = newDate.getFullYear();
+
+        let formattedDate = `${formattedMonth} ${formattedDay}, ${formattedYear}`;
+        //console.log(formattedDate);
+
+        return formattedDate;
+      };
+
       function getQueryParam(param) {
         const urlParams = new URLSearchParams(window.location.search);
         return urlParams.get(param);
       }
+
       const encodedData = getQueryParam("data");
+
       if (encodedData) {
         const jsonData = JSON.parse(decodeURIComponent(encodedData));
         console.log(jsonData.id);
@@ -40,14 +101,86 @@
         const acct_num = jsonData.acct_num;
         const control_num = jsonData.control_num;
         const acct_open = jsonData.acct_open;
-        const month_lost = jsonData.month_lost;
+        const month_lost = jsonData.month_lost.toUpperCase();
         const year_lost = jsonData.year_lost;
         const date_created = jsonData.date_created;
         const bank_address = jsonData.bank_address;
 
         affidavit_loss.innerHTML = `<p>${
           account_hold === "single" ? "I" : "We"
-        }</p>`;
+        }, <b>${account_name}</b>, Filipino, of legal age, <b>${civil_status}</b>, and a resident of <b>${address}</b>, Philippines, under oath, do hereby depose and state;</p>
+          <ol>
+            <li>
+              ${account_hold === "single" ? "I" : "We"} have a ${
+          account_lost === "ctd" ? "time" : account_lost
+        } deposit with the FIRST CONSOLIDATED BANK-<b>${branch} Branch</b> under Account No. <b>${acct_num}</b> and ${
+          account_hold === "single" ? "I was" : "we were"
+        } issued by the said Bank a ${
+          account_lost === "ctd" ? "certificate" : account_lost
+        } bearing ${
+          account_lost === "pitakard" ? "Pitakard No." : "Control No. "
+        } <b>${control_num}</b>;
+            </li>
+            <li>
+              ${
+                account_hold === "single" ? "I was" : "We were"
+              } in possession of said ${
+          account_lost === "ctd"
+            ? "Certificate of Time Deposit (CTD) "
+            : account_lost
+        } since <b>${getDateOpened(
+          acct_open
+        )}</b>. However, sometime <b>${month_lost} ${year_lost}</b>, ${
+          account_hold === "single" ? "I" : "we"
+        } noticed that said ${
+          account_lost === "ctd" ? "CTD" : account_lost
+        }  was missing and/or lost and is no longer in the place where ${
+          account_hold === "single" ? "I" : "we"
+        } put it;
+            </li>
+            <li>
+              ${
+                account_hold === "single" ? "I" : "We"
+              } exerted much effort to search for the said ${
+          account_lost === "ctd" ? "CTD" : account_lost
+        } in places where ${
+          account_hold === "single" ? "I" : "we"
+        }  could have possibly, unintentionally misplaced it, but ${
+          account_hold === "single" ? "my" : "our"
+        } diligent searches proved futile and fruitless as it could never be found;
+            </li>
+            <li>
+              The said ${
+                account_lost === "ctd" ? "CTD" : account_lost
+              } was neither cancelled by the Bank nor the deposit garnished by the court;
+            </li>
+            <li>
+              For all intents and purposes, ${
+                account_hold === "single" ? "I" : "we"
+              } have considered said ${
+          account_lost === "ctd" ? "CTD" : account_lost
+        } <b>lost and beyond recovery</b>;
+            </li>
+          ${
+            account_lost === "ctd"
+              ? "<li>Said CTD will mature/matured on ____________________________ and " +
+                `${account_hold === "single" ? "I" : "we"}` +
+                " could not present and submit the same to the Bank, in case of closure or renewal, because it is missing or lost;</li>"
+              : ""
+          }
+              ${
+                account_lost === "ctd"
+                  ? "<li>" +
+                    `${account_hold === "single" ? "I " : "w"}` +
+                    " hereby request the Bank to allow " +
+                    `${account_hold === "single" ? "me " : "us"}` +
+                    "to close " +
+                    `${account_hold === "single" ? "my " : "our"}` +
+                    " account anytime or upon maturity without presenting the certificate, following bank policy and guidelines;</li>"
+                  : ""
+              }
+          </ol>
+        `;
       }
     </script>
   </body>
