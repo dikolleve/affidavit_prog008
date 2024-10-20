@@ -47,6 +47,15 @@ h1{
 .mb{
 	margin-bottom: 5px;;
 }
+.affiant-input {
+	display: flex;
+}
+.affiant-input input {
+	flex: 10;
+}
+.affiant-input button{
+	flex: 1;
+}
 .btn {
 	background: none;
 	border: none;

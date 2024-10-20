@@ -3,6 +3,8 @@ const add = document.querySelector("#add_id");
 const affidavit_con = document.querySelector("#affidavit_con");
 const back = document.querySelector("#back");
 const inputs = document.querySelectorAll("input[type='text']");
+const ctd_div = document.querySelector("#ctd_div");
+const affiant_fields = document.querySelector("#affiant_fields");
 
 //begining: this variable is for affidavit form
 const affidavit_form_id = document.querySelector("#affidavit_form_id");
@@ -14,6 +16,7 @@ const address = document.querySelector("#address");
 const acct_num = document.querySelector("#acct_num");
 const control_num = document.querySelector("#control_num");
 const acct_open = document.querySelector("#acct_open");
+const ctd_maturity = document.querySelector("#ctd_maturity");
 const month_lost = document.querySelector("#month_lost");
 const year_lost = document.querySelector("#year_lost");
 const date_created = document.querySelector("#date_created");
@@ -33,6 +36,68 @@ inputs.forEach((input) => {
   });
 });
 
+const loopAffiants = (selected) => {
+  let data_selected = selected;
+
+  document.querySelector("#input1_aff").value = data_selected.affiants[0];
+  data_selected.affiants.slice(1).forEach((aff) => {
+    console.log(aff);
+    const div = document.createElement("div");
+    div.className = "affiant-input mb";
+
+    const input = document.createElement("input");
+    input.value = aff;
+    input.type = "text";
+    input.name = "affiant_name[]";
+    input.className = "form-control";
+    input.style.textTransform = "uppercase";
+    input.setAttribute("required", "");
+
+    const button = document.createElement("button");
+    button.type = "button";
+    button.textContent = "X";
+    button.className = "btn btn-danger";
+    button.onclick = () => div.remove(); //remove div element including children
+
+    div.appendChild(input);
+    div.appendChild(button);
+    affiant_fields.appendChild(div);
+  });
+};
+
+const addAffiantField = () => {
+  const div = document.createElement("div");
+  div.className = "affiant-input mb";
+
+  const input = document.createElement("input");
+  input.type = "text";
+  input.name = "affiant_name[]";
+  input.className = "form-control";
+  input.style.textTransform = "uppercase";
+  input.setAttribute("required", "");
+
+  const button = document.createElement("button");
+  button.type = "button";
+  button.textContent = "X";
+  button.className = "btn btn-danger";
+  button.onclick = () => div.remove(); //remove div element including children
+
+  div.appendChild(input);
+  div.appendChild(button);
+  affiant_fields.appendChild(div);
+};
+
+const handleAccountLost = () => {
+  if (account_lost.value === "ctd") {
+    ctd_div.style.display = "block";
+    ctd_maturity.setAttribute("required", "");
+  } else {
+    ctd_div.style.display = "none";
+    ctd_maturity.removeAttribute("required");
+    ctd_maturity.value = "";
+  }
+};
+
 const viewData = (client_id) => {
   console.log(client_id);
   const data_selected = search_selected(client_id);
@@ -49,6 +114,7 @@ const viewData = (client_id) => {
       acct_num: data_selected.acct_num,
       control_num: data_selected.control_num,
       acct_open: data_selected.acct_open,
+      ctd_maturity: data_selected.ctd_maturity,
       month_lost: data_selected.month_lost,
       year_lost: data_selected.year_lost,
       date_created: data_selected.date_created,
@@ -80,10 +146,23 @@ const editData = (client_id) => {
       acct_num.value = data_selected.acct_num;
       control_num.value = data_selected.control_num;
       acct_open.value = data_selected.acct_open;
+
+      account_lost.value === "ctd"
+        ? ((ctd_div.style.display = "block"),
+          (ctd_maturity.value = data_selected.ctd_maturity))
+        : (ctd_div.style.display = "none");
+
       month_lost.value = data_selected.month_lost;
       year_lost.value = data_selected.year_lost;
       date_created.value = data_selected.date_created;
       bank_address.value = data_selected.bank_address;
+
+      /*   Object.entries(data_selected).forEach(([key, value]) => {
+        console.log("key: " + key + " " + value);
+      }); */
+
+      loopAffiants(data_selected);
+      console.log(data_selected.affiants[0]);
     }
     add.click();
     document.querySelector("#btn").innerText = "Save";
@@ -116,6 +195,14 @@ const removeRequired = () => {
 
 const clearFields = () => {
   affidavit_form_id.reset();
+
+  ctd_div.style.display = "none";
+
+  let affiant_input = affiant_fields.querySelectorAll(".affiant-input");
+
+  Array.from(affiant_input)
+    .slice(1)
+    .forEach((aff) => affiant_fields.removeChild(aff));
 };
 
 const display_lists = () => {
@@ -191,10 +278,17 @@ const handleSubmit = (e) => {
   console.log("ACCOUNT NUMBER: " + acct_num.value);
   console.log("CONTROL NUMBER:" + control_num.value);
   console.log("ACCOUNT OPENED: " + acct_open.value);
+  console.log("MATURITY: " + ctd_maturity.value);
   console.log("MONTH AND YEAR LOST: " + month_lost.value);
   console.log("MONTH AND YEAR LOST: " + year_lost.value);
   console.log("DATE OF AFFIDAVIT CREATED:" + date_created.value);
   console.log("FCB BANK ADDRESS: " + bank_address.value);
+
+  const arr_affiant = Array.from(
+    document.querySelectorAll('input[name="affiant_name[]"]')
+  ).map((input) => input.value);
+
+  console.log("arr: " + arr_affiant);
 
   const affidavit_arr = {
     id: edit === true ? selectedToEdit : getAutoId(),
@@ -206,8 +300,10 @@ const handleSubmit = (e) => {
     acct_num: acct_num.value,
     control_num: control_num.value,
     acct_open: acct_open.value,
+    ctd_maturity: ctd_maturity.value ?? "",
     month_lost: month_lost.value,
     year_lost: year_lost.value,
+    affiants: arr_affiant,
     date_created: date_created.value,
     bank_address: bank_address.value,
   };
@@ -283,4 +379,5 @@ const init = () => {
 add.addEventListener("click", handleAffidavitCon);
 back.addEventListener("click", handleBack);
 affidavit_form_id.addEventListener("submit", handleSubmit);
+account_lost.addEventListener("change", handleAccountLost);
 init();

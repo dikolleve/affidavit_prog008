@@ -167,6 +167,15 @@
               required
             />
           </div>
+          <div class="mb" id="ctd_div" style="display: none">
+            <label for="maturity" class="form-label">CTD MATURITY:</label>
+            <input
+              type="date"
+              class="form-control"
+              id="ctd_maturity"
+              required
+            />
+          </div>
           <div class="mb">
             <label class="form-label mb">MONTH AND YEAR LOST:</label>
             <div style="display: flex">
@@ -203,6 +212,24 @@
                 </select>
               </div>
             </div>
+          </div>
+          <div class="mb">
+            <label for="affiant" class="form-label mb">AFFIANT(S):</label>
+            <div id="affiant_fields">
+              <div class="affiant-input mb">
+                <input
+                  id="input1_aff"
+                  type="text"
+                  name="affiant_name[]"
+                  class="form-control"
+                  required
+                />
+                <button type="button" class="btn btn-danger" disabled>X</button>
+              </div>
+            </div>
+            <button class="btn btn-primary" onclick="addAffiantField();">
+              ADD
+            </button>
           </div>
           <div class="mb">
             <label class="form-label mb">DATE OF AFFIDAVIT CREATED:</label>
