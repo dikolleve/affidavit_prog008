@@ -5,37 +5,79 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>PRINT AFFIDAVIT OF LOSS</title>
     <style>
+      h3 {
+        text-align: center;
+        margin-top: 2rem;
+      }
+      .grid-affiants-name {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        column-gap: 10px;
+        margin-top: 2rem;
+      }
+      .grid-affiants-name div {
+        border-bottom: 1px solid black;
+        text-align: center;
+        font-weight: bold;
+      }
+      .grid-affiants-id {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        column-gap: 10px;
+      }
+      .grid-affiants-con {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        column-gap: 10px;
+      }
+      .grid-affiants-con div {
+        text-align: center;
+      }
+      .grid-witnesses {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        column-gap: 30px;
+        margin: 30px 0 0 0;
+      }
+      .grid-witnesses div {
+        text-align: center;
+      }
+      .subscribed {
+        margin-top: 35px;
+      }
+
       /* Screen-specific styles */
       @media screen {
         body {
           font-family: Arial, sans-serif;
           width: 100%;
           margin: 0;
+          text-align: justify;
         }
+
         .container {
-          width: 100%;
-          margin: 20px;
-          background-color: gold;
+          width: 816px;
+          height: 1056px;
         }
       }
-
-      /* Print-specific styles */
       @media print {
-        @page {
-          size: letter; /* Defines the letter size for print (8.5 x 11 inches) */
-          margin: 1in; /* Adjust page margins for printing */
-        }
-
         body {
           font-family: Arial, sans-serif;
-          width: 100%;
-          margin: 0;
-          padding: 0;
+          font-size: 13.3px;
+          size: letter;
+          margin: 48px 74px 66px 96px; /*sets margin*/
+          text-align: justify;
         }
-
-        .container {
-          width: 100%;
-          padding: 0.5in; /* Adjust the container to fit within print margins */
+        li {
+          text-align: justify;
+        }
+        .grid-affiants-name div {
+          border-bottom: 1px solid black;
+          text-align: center;
+          font-weight: bold;
+        }
+        .grid-affiants-name div {
+          border-bottom: 1px solid black !important;
         }
       }
     </style>
@@ -87,6 +129,7 @@
         console.log(jsonData.acct_num);
         console.log(jsonData.control_num);
         console.log(jsonData.acct_open);
+        console.log(jsonData.ctd_maturity);
         console.log(jsonData.month_lost);
         console.log(jsonData.year_lost);
         console.log(jsonData.date_created);
@@ -101,53 +144,66 @@
         const acct_num = jsonData.acct_num;
         const control_num = jsonData.control_num;
         const acct_open = jsonData.acct_open;
+        const ctd_maturity =
+          new Date(jsonData.ctd_maturity).toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          }) ?? "";
         const month_lost = jsonData.month_lost.toUpperCase();
         const year_lost = jsonData.year_lost;
         const date_created = jsonData.date_created;
         const bank_address = jsonData.bank_address;
 
-        affidavit_loss.innerHTML = `<p>${
+        affidavit_loss.innerHTML =
+          `
+        Republic of the Philippines&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;)<br>
+        Province of ________________________ 	) S.S.<br>
+        City/Municipality of __________________	)
+
+        <h3>AFFIDAVIT OF LOSS WITH UNDERTAKING</h3>
+        <p>${
           account_hold === "single" ? "I" : "We"
         }, <b>${account_name}</b>, Filipino, of legal age, <b>${civil_status}</b>, and a resident of <b>${address}</b>, Philippines, under oath, do hereby depose and state;</p>
           <ol>
             <li>
               ${account_hold === "single" ? "I" : "We"} have a ${
-          account_lost === "ctd" ? "time" : account_lost
-        } deposit with the FIRST CONSOLIDATED BANK-<b>${branch} Branch</b> under Account No. <b>${acct_num}</b> and ${
-          account_hold === "single" ? "I was" : "we were"
-        } issued by the said Bank a ${
-          account_lost === "ctd" ? "certificate" : account_lost
-        } bearing ${
-          account_lost === "pitakard" ? "Pitakard No." : "Control No. "
-        } <b>${control_num}</b>;
+            account_lost === "ctd" ? "time" : account_lost
+          } deposit with the FIRST CONSOLIDATED BANK-<b>${branch}</b> Branch under Account No. <b>${acct_num}</b> and ${
+            account_hold === "single" ? "I was" : "we were"
+          } issued by the said Bank a ${
+            account_lost === "ctd" ? "certificate" : account_lost
+          } bearing ${
+            account_lost === "pitakard" ? "Pitakard No." : "Control No. "
+          } <b>${control_num}</b>;
             </li>
             <li>
               ${
                 account_hold === "single" ? "I was" : "We were"
               } in possession of said ${
-          account_lost === "ctd"
-            ? "Certificate of Time Deposit (CTD) "
-            : account_lost
-        } since <b>${getDateOpened(
-          acct_open
-        )}</b>. However, sometime <b>${month_lost} ${year_lost}</b>, ${
-          account_hold === "single" ? "I" : "we"
-        } noticed that said ${
-          account_lost === "ctd" ? "CTD" : account_lost
-        }  was missing and/or lost and is no longer in the place where ${
-          account_hold === "single" ? "I" : "we"
-        } put it;
+            account_lost === "ctd"
+              ? "Certificate of Time Deposit (CTD) "
+              : account_lost
+          } since <b>${getDateOpened(
+            acct_open
+          )}</b>. However, sometime <b>${month_lost} ${year_lost}</b>, ${
+            account_hold === "single" ? "I" : "we"
+          } noticed that said ${
+            account_lost === "ctd" ? "CTD" : account_lost
+          }  was missing and/or lost and is no longer in the place where ${
+            account_hold === "single" ? "I" : "we"
+          } put it;
             </li>
             <li>
               ${
                 account_hold === "single" ? "I" : "We"
               } exerted much effort to search for the said ${
-          account_lost === "ctd" ? "CTD" : account_lost
-        } in places where ${
-          account_hold === "single" ? "I" : "we"
-        }  could have possibly, unintentionally misplaced it, but ${
-          account_hold === "single" ? "my" : "our"
-        } diligent searches proved futile and fruitless as it could never be found;
+            account_lost === "ctd" ? "CTD" : account_lost
+          } in places where ${
+            account_hold === "single" ? "I" : "we"
+          }  could have possibly, unintentionally misplaced it, but ${
+            account_hold === "single" ? "my" : "our"
+          } diligent searches proved futile and fruitless as it could never be found;
             </li>
             <li>
               The said ${
@@ -158,12 +214,44 @@
               For all intents and purposes, ${
                 account_hold === "single" ? "I" : "we"
               } have considered said ${
-          account_lost === "ctd" ? "CTD" : account_lost
-        } <b>lost and beyond recovery</b>;
+            account_lost === "ctd" ? "CTD" : account_lost
+          } <b>lost and beyond recovery</b>;
             </li>
           ${
+            account_lost !== "ctd"
+              ? "<li>" +
+                `${account_hold === "single" ? "I" : "We"}` +
+                " could not present and submit said " +
+                `${account_lost}` +
+                " to the Bank for transaction because it is missing or lost; Nevertheless, " +
+                `${account_hold === "single" ? "I" : "we"}` +
+                " hereby request the Bank for the issuance of a new " +
+                `${account_lost}` +
+                " of said deposit account to replace the lost " +
+                `${account_lost}` +
+                " for " +
+                `${account_hold === "single" ? "me" : "us"}` +
+                " to continue using " +
+                `${account_hold === "single" ? "my" : "our"}` +
+                " existing account, following bank policy and guidelines;</li>"
+              : null
+          }
+              ${
+                account_lost !== "ctd"
+                  ? "<li>Should the old " +
+                    `${account_lost}` +
+                    " be found and should it appear on bank records that the " +
+                    `${account_lost === "passbook" ? "savings" : "pitakard"}` +
+                    " account is closed, " +
+                    `${account_hold === "single" ? "I" : "we"}` +
+                    " undertake not to hold the BANK liable for the amount or deposit thereof; </li>"
+                  : null
+              }
+          ${
             account_lost === "ctd"
-              ? "<li>Said CTD will mature/matured on ____________________________ and " +
+              ? "<li>Said CTD will mature/matured on " +
+                `<b>${ctd_maturity}</b>` +
+                " and " +
                 `${account_hold === "single" ? "I" : "we"}` +
                 " could not present and submit the same to the Bank, in case of closure or renewal, because it is missing or lost;</li>"
               : ""
@@ -171,16 +259,83 @@
               ${
                 account_lost === "ctd"
                   ? "<li>" +
-                    `${account_hold === "single" ? "I " : "w"}` +
+                    `${account_hold === "single" ? "I " : "We"}` +
                     " hereby request the Bank to allow " +
                     `${account_hold === "single" ? "me " : "us"}` +
-                    "to close " +
+                    " to close " +
                     `${account_hold === "single" ? "my " : "our"}` +
                     " account anytime or upon maturity without presenting the certificate, following bank policy and guidelines;</li>"
                   : ""
               }
+                  ${
+                    account_lost === "ctd"
+                      ? "<li>Should the old CTD be found, " +
+                        `${account_hold === "single" ? "I" : "we"}` +
+                        " undertake to notify the Bank and immediately surrender the old CTD to FCB-<b>Abuyog</b> Branch and should it appear on bank records that the time deposit account is already closed, " +
+                        `${account_hold === "single" ? "I" : "we"}` +
+                        " undertake not to hold the BANK liable for the amount/value thereof; </li>"
+                      : ""
+                  }
+                    <li>${
+                      account_hold === "single" ? "I" : "We"
+                    } have executed this Affidavit with full knowledge of its contents and effects. This Affidavit is executed in ` +
+          `${account_hold === "single" ? "my" : "our"}` +
+          ` free and voluntary act and will, without pressure and undue influence by any person or event whatsoever.</li>
           </ol>
-        `;
+          <p><b>IN WITNESS WHEREOF</b>, ` +
+          `${account_hold === "single" ? "I" : "we"}` +
+          ` have hereunto set my hand this ________________________ at ________________________________, Philippines.</p>
+          <div class="grid-affiants-name">
+            <div>MONKEY D. LUFFY</div>
+            <div>ZORRO SWORDS MAN</div>
+            <div>NAMI SWAN</div>
+          </div>
+          <div class="grid-affiants-con">
+            <div>Affiant</div>
+            <div>Affiant</div>
+            <div>Affiant</div>
+          </div>
+          <div class="grid-affiants-id">
+          <div class="grid-id">
+            <div>ID No. _________________</div>
+            <div>Issued on ______________</div>
+            <div>Issued at _______________</div>
+          </div>
+          <div class="grid-id">
+            <div>ID No. _________________</div>
+            <div>Issued on ______________</div>
+            <div>Issued at _______________</div>
+          </div>
+          <div class="grid-id">
+            <div>ID No. _________________</div>
+            <div>Issued on ______________</div>
+            <div>Issued at _______________</div>
+          </div>
+        </div>
+
+        <div class="grid-witnesses">
+          <div>
+            <div>Witnesses:</div>  
+          </div>
+          <div>
+            <div>_________________________</div>  
+            <div>(Signature over Printed Name)</div>
+          </div>
+          <div>
+            <div>_________________________</div>  
+            <div>(Signature over Printed Name)</div>
+          </div>
+        </div>  
+
+        <p class="subscribed">SUBSCRIBED and SWORN TO before ` +
+          `${account_hold === "single" ? "me" : "us"}` +
+          ` this ____________________________________ at ____________________________________, Philippines.</p>
+
+Doc. No.	: ______;<br>
+Page No.	: ______;<br>
+Book No.	: ______;<br>
+Series of 20 _____.
+  `;
       }
     </script>
   </body>

@@ -36,6 +36,22 @@ inputs.forEach((input) => {
   });
 });
 
+const autodash = () => {
+  let numStr = acct_num.value.replace(/\D/g, "");
+
+  const part1 = numStr.slice(0, 3);
+  const part2 = numStr.slice(3, 7);
+  const part3 = numStr.slice(7, 13);
+  const part4 = numStr.slice(13);
+
+  let formated_num = part1;
+  if (part2) formated_num += `-${part2}`;
+  if (part3) formated_num += `-${part3}`;
+  if (part4) formated_num += `-${part4}`;
+
+  acct_num.value = formated_num;
+};
+
 const loopAffiants = (selected) => {
   let data_selected = selected;
 
@@ -238,6 +254,7 @@ const display_lists = () => {
     `);
   } else {
     table_lists.innerHTML = affidavit_data
+      .reverse()
       .map((list, index) => {
         let {
           id,
@@ -253,7 +270,10 @@ const display_lists = () => {
 			<tr>
 				<td data-label="#">${(index += 1)}</td>
 				<td data-label="ACCOUNT LOST">${account_lost}</td>
-				<td data-label="ACCOUNT NAME">${account_name}</td>
+				<td data-label="ACCOUNT NAME">${(account_name =
+          account_name.length >= 40
+            ? `${account_name.slice(0, 35)}...`
+            : account_name)}</td>
 				<td data-label="ACCOUNT NUMBER">${acct_num}</td>
 				<td data-label="CONTROL NUMBER">${control_num}</td>
 				<td data-label="MONTH AND YEAR LOST">${month_lost} ${year_lost}</td>
@@ -375,6 +395,15 @@ const handleBack = () => {
   affidavit_con.style.display = "none";
 };
 
+const runDate = () => {
+  const date = new Date();
+  const month = date.getMonth() + 1;
+  const day = date.getDate();
+  const year = date.getFullYear();
+
+  date_created.value = `${year}-${month}-${day}`;
+};
+
 const handleAffidavitCon = (e) => {
   e.preventDefault();
   setRequired();
@@ -394,6 +423,7 @@ const handleTyping = (e) => {
 };
 
 const init = () => {
+  runDate();
   document.addEventListener("DOMContentLoaded", hideContainer);
 };
 

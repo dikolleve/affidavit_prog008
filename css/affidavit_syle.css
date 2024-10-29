@@ -102,6 +102,10 @@ table {
 	border-collapse: collapse;
 	box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3); /* Shadow properties */
 }
+table thead tr th {
+	position: sticky;
+	top: 0;
+}
 table td, th {
 	border: 1px solid #f2f2f2;
 	padding: 8px;

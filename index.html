@@ -37,7 +37,7 @@
           <tr>
             <th>#</th>
             <th>ACCOUNT LOST</th>
-            <th>ACCOUNT NAME</th>
+            <th class="acct_name_th">ACCOUNT NAME</th>
             <th>ACCOUNT NUMBER</th>
             <th>CONTROL NUMBER</th>
             <th>MONTH AND YEAR LOST</th>
@@ -144,6 +144,8 @@
               id="acct_num"
               type="text"
               class="form-control"
+              maxlength="17"
+              onkeyup="autodash()"
               required
             />
           </div>
