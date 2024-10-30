@@ -59,6 +59,16 @@
           width: 816px;
           height: 1056px;
         }
+
+        .affiants-page:not(:first-child)::before {
+          content: "";
+          display: block;
+          width: 100%;
+          margin-top: 5px;
+          height: 3px; /* Line thickness */
+          background-color: black; /* Line color */
+          margin-bottom: 10px; /* Space after line */
+        }
       }
       @media print {
         body {
@@ -78,6 +88,13 @@
         }
         .grid-affiants-name div {
           border-bottom: 1px solid black !important;
+        }
+        /* Page break for each group of 3 affiants on subsequent pages */
+        .affiants-page {
+          page-break-before: always;
+        }
+        .affiants-page:first-child {
+          page-break-before: auto; /* No page break for the first page */
         }
       }
     </style>
@@ -120,6 +137,7 @@
 
       if (encodedData) {
         const jsonData = JSON.parse(decodeURIComponent(encodedData));
+        //console.log(jsonData);
         console.log(jsonData.id);
         console.log(jsonData.account_lost);
         console.log(jsonData.account_hold);
@@ -132,6 +150,7 @@
         console.log(jsonData.ctd_maturity);
         console.log(jsonData.month_lost);
         console.log(jsonData.year_lost);
+        console.log(jsonData.affiants);
         console.log(jsonData.date_created);
         console.log(jsonData.bank_address);
 
@@ -152,11 +171,16 @@
           }) ?? "";
         const month_lost = jsonData.month_lost.toUpperCase();
         const year_lost = jsonData.year_lost;
+        const affiants = jsonData.affiants;
         const date_created = jsonData.date_created;
         const bank_address = jsonData.bank_address;
 
-        affidavit_loss.innerHTML =
-          `
+        const affiants_per_page = 3;
+        for (let x = 0; x < affiants.length; x += affiants_per_page) {
+          const div = document.createElement("div");
+          div.classList.add("affiants-page");
+          div.innerHTML =
+            `
         Republic of the Philippines&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;)<br>
         Province of ________________________ 	) S.S.<br>
         City/Municipality of __________________	)
@@ -168,42 +192,42 @@
           <ol>
             <li>
               ${account_hold === "single" ? "I" : "We"} have a ${
-            account_lost === "ctd" ? "time" : account_lost
-          } deposit with the FIRST CONSOLIDATED BANK-<b>${branch}</b> Branch under Account No. <b>${acct_num}</b> and ${
-            account_hold === "single" ? "I was" : "we were"
-          } issued by the said Bank a ${
-            account_lost === "ctd" ? "certificate" : account_lost
-          } bearing ${
-            account_lost === "pitakard" ? "Pitakard No." : "Control No. "
-          } <b>${control_num}</b>;
+              account_lost === "ctd" ? "time" : account_lost
+            } deposit with the FIRST CONSOLIDATED BANK-<b>${branch}</b> Branch under Account No. <b>${acct_num}</b> and ${
+              account_hold === "single" ? "I was" : "we were"
+            } issued by the said Bank a ${
+              account_lost === "ctd" ? "certificate" : account_lost
+            } bearing ${
+              account_lost === "pitakard" ? "Pitakard No." : "Control No. "
+            } <b>${control_num}</b>;
             </li>
             <li>
               ${
                 account_hold === "single" ? "I was" : "We were"
               } in possession of said ${
-            account_lost === "ctd"
-              ? "Certificate of Time Deposit (CTD) "
-              : account_lost
-          } since <b>${getDateOpened(
-            acct_open
-          )}</b>. However, sometime <b>${month_lost} ${year_lost}</b>, ${
-            account_hold === "single" ? "I" : "we"
-          } noticed that said ${
-            account_lost === "ctd" ? "CTD" : account_lost
-          }  was missing and/or lost and is no longer in the place where ${
-            account_hold === "single" ? "I" : "we"
-          } put it;
+              account_lost === "ctd"
+                ? "Certificate of Time Deposit (CTD) "
+                : account_lost
+            } since <b>${getDateOpened(
+              acct_open
+            )}</b>. However, sometime <b>${month_lost} ${year_lost}</b>, ${
+              account_hold === "single" ? "I" : "we"
+            } noticed that said ${
+              account_lost === "ctd" ? "CTD" : account_lost
+            }  was missing and/or lost and is no longer in the place where ${
+              account_hold === "single" ? "I" : "we"
+            } put it;
             </li>
             <li>
               ${
                 account_hold === "single" ? "I" : "We"
               } exerted much effort to search for the said ${
-            account_lost === "ctd" ? "CTD" : account_lost
-          } in places where ${
-            account_hold === "single" ? "I" : "we"
-          }  could have possibly, unintentionally misplaced it, but ${
-            account_hold === "single" ? "my" : "our"
-          } diligent searches proved futile and fruitless as it could never be found;
+              account_lost === "ctd" ? "CTD" : account_lost
+            } in places where ${
+              account_hold === "single" ? "I" : "we"
+            }  could have possibly, unintentionally misplaced it, but ${
+              account_hold === "single" ? "my" : "our"
+            } diligent searches proved futile and fruitless as it could never be found;
             </li>
             <li>
               The said ${
@@ -214,8 +238,8 @@
               For all intents and purposes, ${
                 account_hold === "single" ? "I" : "we"
               } have considered said ${
-            account_lost === "ctd" ? "CTD" : account_lost
-          } <b>lost and beyond recovery</b>;
+              account_lost === "ctd" ? "CTD" : account_lost
+            } <b>lost and beyond recovery</b>;
             </li>
           ${
             account_lost !== "ctd"
@@ -279,18 +303,30 @@
                     <li>${
                       account_hold === "single" ? "I" : "We"
                     } have executed this Affidavit with full knowledge of its contents and effects. This Affidavit is executed in ` +
-          `${account_hold === "single" ? "my" : "our"}` +
-          ` free and voluntary act and will, without pressure and undue influence by any person or event whatsoever.</li>
+            `${account_hold === "single" ? "my" : "our"}` +
+            ` free and voluntary act and will, without pressure and undue influence by any person or event whatsoever.</li>
           </ol>
           <p><b>IN WITNESS WHEREOF</b>, ` +
-          `${account_hold === "single" ? "I" : "we"}` +
-          ` have hereunto set my hand this ________________________ at ________________________________, Philippines.</p>
-          <div class="grid-affiants-name">
-            <div>MONKEY D. LUFFY</div>
-            <div>ZORRO SWORDS MAN</div>
-            <div>NAMI SWAN</div>
-          </div>
-          <div class="grid-affiants-con">
+            `${account_hold === "single" ? "I" : "we"}` +
+            ` have hereunto set my hand this ________________________ at ________________________________, Philippines.</p>`;
+
+          let currentAffiants = affiants.slice(x, x + affiants_per_page);
+          let div_aff = document.createElement("div");
+          for (let y = 0; y < affiants_per_page; y++) {
+            div_aff.classList.add("grid-affiants-name");
+            if (currentAffiants[y]) {
+              div_aff.innerHTML += `<div>${currentAffiants[
+                y
+              ].toUpperCase()}</div>`;
+            } else {
+              div_aff.innerHTML += `_______________________`;
+            }
+          }
+          div.appendChild(div_aff);
+
+          let lastRow = document.createElement("div");
+          lastRow.innerHTML =
+            `<div class="grid-affiants-con">
             <div>Affiant</div>
             <div>Affiant</div>
             <div>Affiant</div>
@@ -328,14 +364,18 @@
         </div>  
 
         <p class="subscribed">SUBSCRIBED and SWORN TO before ` +
-          `${account_hold === "single" ? "me" : "us"}` +
-          ` this ____________________________________ at ____________________________________, Philippines.</p>
+            `${account_hold === "single" ? "me" : "us"}` +
+            ` this ____________________________________ at ____________________________________, Philippines.</p>
 
 Doc. No.	: ______;<br>
 Page No.	: ______;<br>
 Book No.	: ______;<br>
 Series of 20 _____.
   `;
+
+          affidavit_loss.appendChild(div);
+          affidavit_loss.appendChild(lastRow);
+        }
       }
     </script>
   </body>

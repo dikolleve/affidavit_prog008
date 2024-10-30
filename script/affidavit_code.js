@@ -115,11 +115,9 @@ const handleAccountLost = () => {
 };
 
 const viewData = (client_id) => {
-  console.log(client_id);
   const data_selected = search_selected(client_id);
-  if (data_selected) {
-    console.log(data_selected);
 
+  if (data_selected) {
     const affidavit_data = {
       id: data_selected.id,
       account_lost: data_selected.account_lost,
@@ -133,6 +131,7 @@ const viewData = (client_id) => {
       ctd_maturity: data_selected.ctd_maturity,
       month_lost: data_selected.month_lost,
       year_lost: data_selected.year_lost,
+      affiants: data_selected.affiants, //don't forget to use 'affiants' as your key value
       date_created: data_selected.date_created,
       bank_address: data_selected.bank_address,
     };
@@ -147,15 +146,14 @@ const search_selected = (client_id) => {
 };
 
 const editData = (client_id) => {
-  //console.log("edit data: " + client_id);
   edit = true;
   selectedToEdit = client_id;
   const data_selected = search_selected(client_id);
+  console.log(data_selected);
 
   if (confirm("Are you sure do you want to edit this data? 😦")) {
     if (data_selected) {
       document.getElementById("ctd_maturity").removeAttribute("required");
-      console.log(data_selected);
 
       account_lost.value = data_selected.account_lost;
       account_hold.value = data_selected.account_hold;
@@ -166,7 +164,6 @@ const editData = (client_id) => {
       control_num.value = data_selected.control_num;
       acct_open.value = data_selected.acct_open;
 
-      console.log("account lost: " + account_lost.value);
       account_lost.dispatchEvent(new Event("change"));
       if (account_lost.value === "ctd") {
         ctd_div.style.display = "block";
@@ -174,28 +171,16 @@ const editData = (client_id) => {
         ctd_maturity.value = data_selected.ctd_maturity;
       } else {
         ctd_div.style.display = "none";
-        console.log("i was read");
-        //document.getElementById("ctd_maturity").removeAttribute("required");
         ctd_maturity.value = "";
       }
-      /* account_lost.value === "ctd"
-        ? ((ctd_div.style.display = "block"),
-          (ctd_maturity.value = data_selected.ctd_maturity))
-        : (ctd_div.style.display = "none"),
-        (ctd_maturity.removeAttribute("required"), (ctd_maturity.value = "")); */
-      //handleAccountLost();
 
       month_lost.value = data_selected.month_lost;
       year_lost.value = data_selected.year_lost;
       date_created.value = data_selected.date_created;
       bank_address.value = data_selected.bank_address;
 
-      /*   Object.entries(data_selected).forEach(([key, value]) => {
-        console.log("key: " + key + " " + value);
-      }); */
-
       loopAffiants(data_selected);
-      console.log(data_selected.affiants[0]);
+      //console.log(data_selected.affiants[0]);
     }
     add.click();
     document.querySelector("#btn").innerText = "Save";
@@ -271,8 +256,8 @@ const display_lists = () => {
 				<td data-label="#">${(index += 1)}</td>
 				<td data-label="ACCOUNT LOST">${account_lost}</td>
 				<td data-label="ACCOUNT NAME">${(account_name =
-          account_name.length >= 40
-            ? `${account_name.slice(0, 35)}...`
+          account_name.length >= 35
+            ? `${account_name.slice(0, 30)}...`
             : account_name)}</td>
 				<td data-label="ACCOUNT NUMBER">${acct_num}</td>
 				<td data-label="CONTROL NUMBER">${control_num}</td>
