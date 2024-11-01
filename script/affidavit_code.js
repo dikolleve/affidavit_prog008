@@ -104,6 +104,10 @@ const addAffiantField = () => {
 };
 
 const handleAccountLost = () => {
+  //change of control number label text to "Pitakard Number"
+  control_number();
+
+  //toggle hiding of ctd
   if (account_lost.value === "ctd") {
     ctd_div.style.display = "block";
     ctd_maturity.setAttribute("required", "");
@@ -215,16 +219,29 @@ const removeRequired = () => {
     .forEach((el) => el.removeAttribute("required"));
 };
 
-const clearFields = () => {
-  affidavit_form_id.reset();
+const control_number = () => {
+  let ctrl_label = document.getElementById("ctrl_label");
+  ctrl_label.textContent =
+    account_lost.value === "pitakard" ? "PITAKARD NUMBER:" : "CONTROL NUMBER:";
+};
 
-  ctd_div.style.display = "none";
-
+const clearAffiantsFields = () => {
   let affiant_input = affiant_fields.querySelectorAll(".affiant-input");
 
   Array.from(affiant_input)
     .slice(1)
     .forEach((aff) => affiant_fields.removeChild(aff));
+};
+
+const clearFields = () => {
+  affidavit_form_id.reset();
+
+  //change to default name of control number
+  document.getElementById("ctrl_label").textContent = "CONTROL NUMBER:";
+
+  ctd_div.style.display = "none";
+
+  clearAffiantsFields();
 };
 
 const display_lists = () => {
@@ -396,6 +413,24 @@ const handleAffidavitCon = (e) => {
   affidavit_table.style.display = "none";
 };
 
+const handleAddAffiant = () => {
+  const addBtn = document.querySelector(".add-btn");
+  const btn_val = account_hold.value;
+
+  if (btn_val === "multiple") {
+    addBtn.style.display = "block";
+  } else {
+    addBtn.style.display = "none";
+    clearAffiantsFields();
+    disableAddBtn();
+  }
+};
+
+const disableAddBtn = () => {
+  const addBtn = document.querySelector(".add-btn");
+  addBtn.style.display = "none";
+};
+
 const hideContainer = () => {
   affidavit_con.style.display = "none";
   display_lists();
@@ -409,6 +444,7 @@ const handleTyping = (e) => {
 
 const init = () => {
   runDate();
+  disableAddBtn();
   document.addEventListener("DOMContentLoaded", hideContainer);
 };
 
@@ -416,4 +452,5 @@ add.addEventListener("click", handleAffidavitCon);
 back.addEventListener("click", handleBack);
 affidavit_form_id.addEventListener("submit", handleSubmit);
 account_lost.addEventListener("change", handleAccountLost);
+account_hold.addEventListener("change", handleAddAffiant);
 init();

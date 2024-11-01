@@ -150,7 +150,7 @@
             />
           </div>
           <div class="mb">
-            <label class="form-label mb">CONTROL NUMBER:</label>
+            <label class="form-label mb" id="ctrl_label">CONTROL NUMBER:</label>
             <input
               name="control_num"
               id="control_num"
@@ -224,7 +224,10 @@
                 <button type="button" class="btn btn-danger" disabled>X</button>
               </div>
             </div>
-            <button class="btn btn-primary" onclick="addAffiantField();">
+            <button
+              class="btn btn-primary add-btn"
+              onclick="addAffiantField();"
+            >
               ADD
             </button>
           </div>
@@ -246,7 +249,7 @@
               id="bank_address"
               value="Real St. Loyonsawang,Abuyog, Leyte"
               class="form-control"
-              required
+              disabled
             />
           </div>
           <div>
