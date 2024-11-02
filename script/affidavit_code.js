@@ -234,7 +234,11 @@ const clearAffiantsFields = () => {
 };
 
 const clearFields = () => {
+  //clear all specific fields
   affidavit_form_id.reset();
+
+  //automatically run current date
+  runDate();
 
   //change to default name of control number
   document.getElementById("ctrl_label").textContent = "CONTROL NUMBER:";
@@ -399,8 +403,8 @@ const handleBack = () => {
 
 const runDate = () => {
   const date = new Date();
-  const month = date.getMonth() + 1;
-  const day = date.getDate();
+  const month = (date.getMonth() + 1).toString().padStart(2, "0");
+  const day = date.getDate().toString().padStart(2, "0");
   const year = date.getFullYear();
 
   date_created.value = `${year}-${month}-${day}`;
