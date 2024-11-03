@@ -274,14 +274,16 @@ const display_lists = () => {
         return `
 			<tr>
 				<td data-label="#">${(index += 1)}</td>
-				<td data-label="ACCOUNT LOST">${account_lost}</td>
+				<td data-label="ACCOUNT LOST" style="color: red; font-weight: bold;">${account_lost}</td>
 				<td data-label="ACCOUNT NAME">${(account_name =
           account_name.length >= 35
             ? `${account_name.slice(0, 30)}...`
             : account_name)}</td>
 				<td data-label="ACCOUNT NUMBER">${acct_num}</td>
 				<td data-label="CONTROL NUMBER">${control_num}</td>
-				<td data-label="MONTH AND YEAR LOST">${month_lost} ${year_lost}</td>
+				<td data-label="MONTH AND YEAR LOST">${month_lost
+          .charAt(0)
+          .toUpperCase()}${month_lost.slice(1)} ${year_lost}</td>
 				<td data-label="OPERATION" class="arrange_btn">
 					<button class="btn btn-warning" onclick="editData('${id}')">
 						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pen-fill" viewBox="0 0 16 16">
