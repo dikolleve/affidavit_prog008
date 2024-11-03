@@ -168,7 +168,7 @@ const editData = (client_id) => {
       control_num.value = data_selected.control_num;
       acct_open.value = data_selected.acct_open;
 
-      account_lost.dispatchEvent(new Event("change"));
+      //account_lost.dispatchEvent(new Event("change"));
       if (account_lost.value === "ctd") {
         ctd_div.style.display = "block";
         ctd_maturity.setAttribute("required", "");
@@ -260,7 +260,6 @@ const display_lists = () => {
     `);
   } else {
     table_lists.innerHTML = affidavit_data
-      .reverse()
       .map((list, index) => {
         let {
           id,
@@ -357,7 +356,7 @@ const handleSubmit = (e) => {
   console.log(affidavit_arr);
 
   if (!edit) {
-    affidavit_data.push(affidavit_arr);
+    affidavit_data.unshift(affidavit_arr);
     localStorage.setItem("affidavit_storage", JSON.stringify(affidavit_data));
     alert("Successfully Added! 😎");
     clearFields();
@@ -366,9 +365,27 @@ const handleSubmit = (e) => {
   } else {
     edit = false;
 
-    let update = affidavit_data.map((arr) =>
-      arr.id === selectedToEdit ? { ...arr, ...affidavit_arr } : arr
-    );
+    //this code commented below is also re-usable to update a selected array object
+    // let update = affidavit_data
+    //   .map((arr) =>
+    //     arr.id === selectedToEdit ? { ...arr, ...affidavit_arr } : arr
+    //   );
+
+    //To ensure the updated entry appears in the first row of your table after it's edited,
+    // you can adjust your code to place the modified item at the beginning of the array.
+    //One way to do this is by filtering the selected item out first, updating it,
+    //and then using array destructuring to add it back at the beginning.
+    // This approach will:
+
+    // Filter and update the selected item.
+    // Move the updated item to the beginning.
+    // Append the rest of the items.
+    let update = [
+      ...affidavit_data
+        .filter((arr) => arr.id === selectedToEdit)
+        .map((arr) => ({ ...arr, ...affidavit_arr })),
+      ...affidavit_data.filter((arr) => arr.id !== selectedToEdit),
+    ];
 
     localStorage.setItem("affidavit_storage", JSON.stringify(update));
 
