@@ -25,6 +25,7 @@ const bank_address = document.querySelector("#bank_address");
 
 let edit = false;
 let selectedToEdit = "";
+let edit_data_selected;
 
 const affidavit_data = localStorage.getItem("affidavit_storage")
   ? JSON.parse(localStorage.getItem("affidavit_storage"))
@@ -52,10 +53,12 @@ const autodash = () => {
   acct_num.value = formated_num;
 };
 
-const loopAffiants = (selected) => {
+////iterate all affiants (to make dynamic)
+const iterateAffiants = (selected) => {
   let data_selected = selected;
 
   document.querySelector("#input1_aff").value = data_selected.affiants[0];
+
   data_selected.affiants.slice(1).forEach((aff) => {
     console.log(aff);
     const div = document.createElement("div");
@@ -79,6 +82,22 @@ const loopAffiants = (selected) => {
     div.appendChild(button);
     affiant_fields.appendChild(div);
   });
+};
+
+const loopAffiants = (selected) => {
+  let data_selected = selected;
+
+  const addBtn = document.querySelector(".add-btn");
+  const btn_val = account_hold.value;
+
+  if (btn_val === "multiple") {
+    addBtn.style.display = "block";
+
+    iterateAffiants(data_selected);
+  } else {
+    addBtn.style.display = "none";
+    document.querySelector("#input1_aff").value = data_selected.affiants[0];
+  }
 };
 
 const addAffiantField = () => {
@@ -152,7 +171,10 @@ const search_selected = (client_id) => {
 const editData = (client_id) => {
   edit = true;
   selectedToEdit = client_id;
+
   const data_selected = search_selected(client_id);
+  edit_data_selected = data_selected;
+
   console.log(data_selected);
 
   if (confirm("Are you sure do you want to edit this data? 😦")) {
@@ -438,11 +460,22 @@ const handleAffidavitCon = (e) => {
 
 const handleAddAffiant = () => {
   const addBtn = document.querySelector(".add-btn");
+
+  //get value on account hold
   const btn_val = account_hold.value;
+
+  //use this to retrieve to loop more affiants this data_selected
+  let data_selected = edit_data_selected;
 
   if (btn_val === "multiple") {
     addBtn.style.display = "block";
-  } else {
+
+    //iterate all affiants (to make dynamic)
+    iterateAffiants(data_selected);
+  } else if (btn_val === "single") {
+    //put only one affiant if single is selected on account hold
+    document.querySelector("#input1_aff").value = data_selected.affiants[0];
+
     addBtn.style.display = "none";
     clearAffiantsFields();
     disableAddBtn();
